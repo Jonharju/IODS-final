@@ -12,12 +12,14 @@ output:
     fig_height: 4
     code_folding: hide
 ---
+#IODS-final project
 
-# IODS-final project
+##Abstract
+In my final assignment I tested how hobbies relate to gender and age. This was done on the hobbies data included in the FactomineR package. The study was done using Multiple Correspondence Analysis on the data set, which consisted of categorical variables. The hypothesis were that younger people being more likely to have hobbies and typical stereotype hobbies as fishing or knitting are more common with genders. Based on this study it seems as if the data supported the hypothesis.
+
+## IODS-final project and my hypothesis
 
 As my final project in the course Introduction to Open Datasciences, I am going to perform Multiple correspondence analysis on Factominers Hobbies dataset, to draw some conclusions about how hobbies relate to age and gender. 
-
-## My hypothesis
 
 My hypothesis is that younger persons tend to have more hobbies than older people, since they have more time than older people and most of us have had at least one hobby when we were young. Also the older people get the less time they have and when people become really old they don't have the energy anymore to do so many things. Also going with stereotypes, I think young men are more likely to have computer as a hobby, while knitting is more common with elderly women. I also suspect that mechanics and fishing are more common with men, meanwhile women might be more actively reading or visiting exhibitions
 
