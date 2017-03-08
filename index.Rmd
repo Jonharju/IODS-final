@@ -27,7 +27,7 @@ My hypothesis is that younger persons tend to have more hobbies than older peopl
 
 [Here is a link to my wrangled the data.](https://github.com/Jonharju/IODS-final/blob/master/final_wrangling_hobbies.R) The data is from the Factominer package, it's based on a questionnaire about hobbies. The original data consisted 8403 observations of 23 variables, out which 18 were hobbies and then there was a count of how many hobbies out of the 18 were practised. The remaining four described the person, like age, marital status, sex and profession.
 
-After the wrangling there are 6905 observations of 15 variables. Incomplete variables were removed and also some general hobbies like listening to music or going to cinema, which I found quite common and therefore the others more interesting. Also renaming of the factors was done to describe them better than 0 or 1.
+After the wrangling there are 6905 observations of 14 variables. Incomplete variables were removed and also some general hobbies like listening to music or going to cinema, which I found quite common and therefore the others more interesting. Also renaming of the factors was done to describe them better than 0 or 1.
 
 ## A look at the data
 
@@ -38,7 +38,7 @@ hobbies<- select(hobbies, -X)
 str(hobbies)
 ```
 
-So as I previously mentioned, the data consists of 12 hobbies as factor variables, which have the value hobby or not hobby. We also have age as varible, as slices of then years starting from 15-25 and ending at 86-100. Then there is sex, simply divided into M (male) or F (female). For interest I chose to keep profession, which is divided into manual labourer, unskilled worker, technician, foreman, senior management, employee or other.
+So as I previously mentioned, the data consists of 12 hobbies as factor variables, which have the value hobby or not hobby. We also have age as varible, as slices of then years starting from 15-25 and ending at 86-100. Then there is sex, simply divided into M (male) or F (female).
 
 ```{R, message = FALSE, warning = FALSE}
 library(tidyr) 
@@ -76,9 +76,8 @@ mca <- MCA(hobbies, graph = FALSE)
 summary(mca)
 ```
 
-From the Eigenvalues I see that the first dimensions retains 10% of the total variance, whilst the second one retains 8%. The differences of how much variance the 24 dimensions retain are small, beeing around 3-5%.
-None of the squared correlation between the variables and dimensions are even close to 1, meaning that there doesn't seem to be strong relations between any of them. Let's take a look at the factor map.
-
+From the Eigenvalues I see that the first dimensions retains 10% of the total variance, whilst the second one retains 8%. The differences of how much variance the 24 dimensions retain are small, beeing around 3-5%. The v-values shown for the first two dimensions are all above 1.96 or below -1.96, meaning the coordinates are significantly different from 0.
+None of the squared correlation between the variables and dimensions are even close to 1, meaning that there doesn't seem to be really strong relations between any of them. The strongest seem to be computer, sport and travelling to dimension 1, while knitting seems to be the strongest related to dimension 2. Let's take a look at the factor map.
 
 ```{R, message = FALSE, warning = FALSE}
 # visualize MCA
@@ -99,7 +98,7 @@ As we can see the genders are distributed the way as expected. The splitting sug
 plotellipses(mca, keepvar = 14, means = FALSE, label = "quali")
 ```
 
-We can that the greater ages are going from the inward, but the yonger groups don't follow the pattern all the way, as the rightmost ellips is the 35-45. There would still seem to some correlatione with age and dimension 1. Based on the fact that many of the not having something as hobby were on the negative side of the first dimension, it would seem to fit well with my hypothesis.
+We can see that the greater ages are going from the inward, but the yonger groups don't follow the pattern all the way, as the rightmost ellips is the 35-45. There would still seem to some correlatione with age and dimension 1. Based on the fact that many of the not having something as hobby were on the negative side of the first dimension, it would seem to fit well with my hypothesis.
 
 ##Discussions and conclusions
-This assignment focused on how age and gender is related to hobbies. My hypothesis were that younger people are more likely to have hobbies and that typically hobbies considered masculine as fishing or feminine as knitting are more common among the stereotypes. After some Multiple Correspondence Analysis on the data, there is some evidence for my hypothesis. 
+This assignment focused on how age and gender is related to hobbies. My hypothesis were that younger people are more likely to have hobbies and that typically hobbies considered masculine as fishing or feminine as knitting are more common among the stereotypes. After some Multiple Correspondence Analysis on the data, there is some evidence for my hypothesis. The case for genders was more clearly divided, while the age was not so straight forward. This does not mean that we can claim this to be true in all cases, but the data seems to match the typical stereotypes.
