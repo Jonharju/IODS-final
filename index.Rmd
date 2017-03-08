@@ -15,15 +15,15 @@ output:
 
 # IODS-final project
 
-As my final project in the course Introduction to Open Datasciences, I am going to perform Multiple correspondence analysis on Factominers Hobbies dataset, to draw some conclusions about how hobbies relate to age, gender, marital status and profession. 
+As my final project in the course Introduction to Open Datasciences, I am going to perform Multiple correspondence analysis on Factominers Hobbies dataset, to draw some conclusions about how hobbies relate to age and gender. 
 
 ## My hypothesis
 
-My hypothesis is that younger persons tend to have more hobbies than older people, since they have more time than older people and most of us have had at least one hobby when we were young. Also going with stereotypes, I think young men are more likely to have computer as a hobby, while knitting is more common with elderly women. I also suspect that mechanics and fishing are more common with men, meanwhile women might be more actively reading or visiting exhibitions
+My hypothesis is that younger persons tend to have more hobbies than older people, since they have more time than older people and most of us have had at least one hobby when we were young. Also the older people get the less time they have and when people become really old they don't have the energy anymore to do so many things. Also going with stereotypes, I think young men are more likely to have computer as a hobby, while knitting is more common with elderly women. I also suspect that mechanics and fishing are more common with men, meanwhile women might be more actively reading or visiting exhibitions
 
 ## The original dataset and the wrangling of it
 
-Here is a link to my wrangled the data. The data is from the Factominer package, it's based on a questionnaire about hobbies. The original data consisted 8403 observations of 23 variables, out which 18 were hobbies and then there was a count of how many hobbies out of the 18 were practised. The remaining four described the person, like age, marital status, sex and profession.
+[Here is a link to my wrangled the data.](https://github.com/Jonharju/IODS-final/blob/master/final_wrangling_hobbies.R) The data is from the Factominer package, it's based on a questionnaire about hobbies. The original data consisted 8403 observations of 23 variables, out which 18 were hobbies and then there was a count of how many hobbies out of the 18 were practised. The remaining four described the person, like age, marital status, sex and profession.
 
 After the wrangling there are 6905 observations of 15 variables. Incomplete variables were removed and also some general hobbies like listening to music or going to cinema, which I found quite common and therefore the others more interesting. Also renaming of the factors was done to describe them better than 0 or 1.
 
@@ -79,10 +79,32 @@ library(FactoMineR)
 mca <- MCA(hobbies, graph = FALSE)
 # summary of the model
 summary(mca)
+```
+
+From the Eigenvalues I see that the first dimensions retains 10% of the total variance, whilst the second one retains 8%. The differences of how much variance the 24 dimensions retain are small, beeing around 3-5%.
+None of the squared correlation between the variables and dimensions are even close to 1, meaning that there doesn't seem to be strong relations between any of them. Let's take a look at the factor map.
+
+
+```{R, message = FALSE, warning = FALSE}
 # visualize MCA
 plot(mca, invisible=c("ind"), habillage = "quali")
 ```
 
-From the Eigenvalues I see that the first dimensions retains 10% of the total variance, whilst the second one retains 8%. The differences of how much variance the 24 dimensions retain are small, beeing arounf 3-5%.
-All of the v-test values shown in the categories part are above 1.96 or below -1.96, therefore beeing 
-None of the squared correlation between the variables and dimensions are even close to 1, meaning that there doesn't seem to be strong relations between any of them.
+The most of the varibles are packed in the middle, but some are deviating a bit from the pack, like fishing and technician being high, while knitting lies really low. There also seems to be a lot of not having hobbies on the left side, while having something as hobby seems to be on the right side. Let's draw concenctration ellipses for the gender and age variables.
+
+```{R, message = FALSE, warning = FALSE}
+# visualize MCA
+plotellipses(mca, keepvar = 13, means = FALSE, label = "quali")
+```
+
+As we can see the genders are distributed the way as expected. The splitting suggests that  Based on my theory and the fact that fishing is deviating high on dimension 2, while knitting is deviating low suggests that the second dimension would correlate with gender. This would seem to go very well with my hypothesis.
+
+```{R, message = FALSE, warning = FALSE}
+# visualize MCA
+plotellipses(mca, keepvar = 14, means = FALSE, label = "quali")
+```
+
+We can that the greater ages are going from the inward, but the yonger groups don't follow the pattern all the way, as the rightmost ellips is the 35-45. There would still seem to some correlatione with age and dimension 1. Based on the fact that many of the not having something as hobby were on the negative side of the first dimension, it would seem to fit well with my hypothesis.
+
+##Discussions and conclusions
+This assignment focused on how age and gender is related to hobbies. My hypothesis were that younger people are more likely to have hobbies and that typically hobbies considered masculine as fishing or feminine as knitting are more common among the stereotypes. After some Multiple Correspondence Analysis on the data, there is some evidence for my hypothesis. 

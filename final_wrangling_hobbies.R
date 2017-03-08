@@ -34,7 +34,7 @@ levels(complete$Fishing) <- c('No fishing','Fishing')
 
 #Remove some general categories, i.e. cinema, listening to movies etc.
 keep_columns <- c("Reading", "Computer", "Sport", "Walking", "Travelling", "Playing music", "Volunteering", 
-                  "Mechanic", "Gardening", "Knitting", "Cooking", "Fishing", "Sex", "Age", "Marital Status", "Profession")
+                  "Mechanic", "Gardening", "Knitting", "Cooking", "Fishing", "Sex", "Age")
 complete <-select(complete, one_of(keep_columns))
 summary(complete)
 
