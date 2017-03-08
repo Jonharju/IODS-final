@@ -1,7 +1,88 @@
 ---
 title: 'IODS-final'
-output: html_document
+author: "Jonas Harjunpää, jonas.harjunpaa@helsinki.fi"
+date: March 4, 2017
+output:
+  html_document:
+    theme: cerulean
+    toc: true
+    toc_depth: 2
+    fig_caption: true
+    fig_width: 6
+    fig_height: 4
+    code_folding: hide
 ---
 
-## IODS-final project
-This is my final project in the course Introduction to Open Datasciences
+# IODS-final project
+
+As my final project in the course Introduction to Open Datasciences, I am going to perform Multiple correspondence analysis on Factominers Hobbies dataset, to draw some conclusions about how hobbies relate to age, gender, marital status and profession. 
+
+## My hypothesis
+
+My hypothesis is that younger persons tend to have more hobbies than older people, since they have more time than older people and most of us have had at least one hobby when we were young. Also going with stereotypes, I think young men are more likely to have computer as a hobby, while knitting is more common with elderly women. I also suspect that mechanics and fishing are more common with men, meanwhile women might be more actively reading or visiting exhibitions
+
+## The original dataset and the wrangling of it
+
+Here is a link to my wrangled the data. The data is from the Factominer package, it's based on a questionnaire about hobbies. The original data consisted 8403 observations of 23 variables, out which 18 were hobbies and then there was a count of how many hobbies out of the 18 were practised. The remaining four described the person, like age, marital status, sex and profession.
+
+After the wrangling there are 6905 observations of 15 variables. Incomplete variables were removed and also some general hobbies like listening to music or going to cinema, which I found quite common and therefore the others more interesting. Also renaming of the factors was done to describe them better than 0 or 1.
+
+## A look at the data
+
+```{R, message = FALSE, warning = FALSE}
+library(dplyr)
+hobbies<- read.table("~/GitHub/IODS-final/hobbies.csv", sep = ",", header = TRUE)
+hobbies<- select(hobbies, -X)
+str(hobbies)
+```
+
+So as I previously mentioned, the data consists of 12 hobbies as factor variables, which have the value hobby or not hobby. We also have age as varible, as slices of then years starting from 15-25 and ending at 86-100. Then there is sex, simply divided into M (male) or F (female). For interest I chose to keep profession, which is divided into manual labourer, unskilled worker, technician, foreman, senior management, employee or other.
+
+```{R, message = FALSE, warning = FALSE}
+library(tidyr) 
+library(ggplot2)
+gather(hobbies) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_bar() + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 5))
+```
+
+Here is a graphical presentation of the data.
+
+```{R, message = FALSE, warning = FALSE}
+summary(hobbies)
+```
+
+Here we can see some summaries on the varibles. The only hobby for clearly over half of the participants was Reading, with around 2/3 reading. Close to half and half were Walking, Cooking and Mechanic. Slightly ufavoured were Computer, Sport, Travelling and Gardening. Clearly unfavored  were Knitting, Playing music, Volunteering and Fishing with around 1/7 of the participants counting it as their hobby. I was surprised with Mechanic being so common and Playing music being so uncommon.
+
+The participants were quite close to being even in gender, with slightly more Female participants.
+Because age and profession are not shown as whole, let's summarize just them again.
+
+```{R, message = FALSE, warning = FALSE}
+summary(hobbies$Age)
+```
+
+We can see that age of the participants was quite evenly distributed towards the middle with the ends as the smallest groups, with a little more weight on the younger side. Most of the participants were between 25 and 65 years old, while the smallest group was 86-100. This could be expected.
+
+```{R, message = FALSE, warning = FALSE}
+summary(hobbies$Profession)
+```
+
+Most of the people who answered the questionnaire worked as employees, with Maual labourers and Management coming in as second. I am surprised that only 212 people fell into the other category, which means that the groups are quite well chosen.
+
+
+## Multiple correspondence analysis as a method
+
+Multiple correspondence analysis is a dimensionality reduction technique. It is used to find correlations and structures between the categorical varibles. It is basically an extencison of correspondence analysis, which is similar to principal component analysis, but differs in that it applies to categorical instead of continuous data. The reduction of dimensions is done by representing data as points in a low-dimensional Euclidean space.
+
+## My analysis
+
+```{R, message = FALSE, warning = FALSE}
+library(FactoMineR)
+mca <- MCA(hobbies, graph = FALSE)
+# summary of the model
+summary(mca)
+# visualize MCA
+plot(mca, invisible=c("ind"), habillage = "quali")
+```
+
+From the Eigenvalues I see that the first dimensions retains 10% of the total variance, whilst the second one retains 8%. The differences of how much variance the 24 dimensions retain are small, beeing arounf 3-5%.
+All of the v-test values shown in the categories part are above 1.96 or below -1.96, therefore beeing 
+None of the squared correlation between the variables and dimensions are even close to 1, meaning that there doesn't seem to be strong relations between any of them.
