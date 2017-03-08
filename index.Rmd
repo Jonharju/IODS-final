@@ -61,13 +61,6 @@ summary(hobbies$Age)
 
 We can see that age of the participants was quite evenly distributed towards the middle with the ends as the smallest groups, with a little more weight on the younger side. Most of the participants were between 25 and 65 years old, while the smallest group was 86-100. This could be expected.
 
-```{R, message = FALSE, warning = FALSE}
-summary(hobbies$Profession)
-```
-
-Most of the people who answered the questionnaire worked as employees, with Maual labourers and Management coming in as second. I am surprised that only 212 people fell into the other category, which means that the groups are quite well chosen.
-
-
 ## Multiple correspondence analysis as a method
 
 Multiple correspondence analysis is a dimensionality reduction technique. It is used to find correlations and structures between the categorical varibles. It is basically an extencison of correspondence analysis, which is similar to principal component analysis, but differs in that it applies to categorical instead of continuous data. The reduction of dimensions is done by representing data as points in a low-dimensional Euclidean space.
